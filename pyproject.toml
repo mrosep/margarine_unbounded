@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "margarine_unbounded"
 version = "0.1.0"
 description = "margarine_unbounded: Unbounded fork of margarine for flow-based inference without implicit parameter bounds"
-readme = "README.rst"
+readme = "README.md"
 authors = [
     {name = "Metha Prathaban", email = "your.email@example.com"},
     {name = "Harry T. J. Bevins (original margarine)", email = "htjb2@cam.ac.uk"}]

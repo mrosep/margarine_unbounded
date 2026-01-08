@@ -1,3 +1,18 @@
+"""Masked Autoregressive Flow (MAF) implementation for unbounded density estimation.
+
+This module provides the MAF class for learning probability distributions using
+normalizing flows. This is part of margarine_unbounded, a fork of the original
+margarine package by Harry T. J. Bevins.
+
+Key differences from original margarine:
+    - Removes implicit parameter bounds during training
+    - Uses automatic standardization (mean/std) instead of min/max normalization
+    - Provides .quantile() method for clean uniform->physical transforms
+    - Designed for use with nested sampling and posterior repartitioning
+
+Original margarine: https://github.com/htjb/margarine
+"""
+
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow_probability import (bijectors as tfb, distributions as tfd)
@@ -10,11 +25,18 @@ import anesthetic
 
 
 class MAF:
+    r"""Masked Autoregressive Flow for unbounded density estimation.
 
-    r"""
+    This class trains and uses a normalizing flow built from chained autoregressive
+    neural networks to learn probability distributions. This unbounded version uses
+    standardization (mean/std) instead of min/max normalization, avoiding implicit
+    parameter bounds.
 
-    This class is used to train, load and call instances of a bijector
-    built from a series of autoregressive neural networks.
+    **Key Features of Unbounded Version:**
+        - Uses mean/std standardization (not min/max normalization)
+        - Provides .quantile() method for nested sampling applications
+        - No implicit bounds on parameter space
+        - Handles standardization/unstandardization automatically
 
     **Parameters:**
 
@@ -52,31 +74,27 @@ class MAF:
                 function keyword recognisable by TensorFlow. The default is
                 'tanh', the hyperbolic tangent activation function.
 
-        theta_max: **numpy array**
-            | The true upper limits of the priors used to generate the samples
-                that we want the MAF to learn.
-
-        theta_min: **numpy array**
-            | As above but the true lower limits of the priors.
-            
         parameters: **list of strings**
             | A list of the relevant parameters to train on. Only needed
-                if theta is an anestehetic samples object. If not provided,
+                if theta is an anesthetic samples object. If not provided,
                 all parameters will be used.
-            
+
+    **Important Methods:**
+
+        train(): Train the MAF on the provided samples
+        sample(n): Generate n samples from the learned distribution
+        quantile(u): Transform uniform [0,1] samples to physical parameters (for nested sampling)
+        log_prob(params): Compute log-probability of parameters
+        save(filename): Save trained model to file
+        load(filename): Load trained model from file (class method)
+
     **Attributes:**
 
-    A list of some key attributes accessible to the user.
+        mean: **numpy array**
+            | Mean of the training data, used for standardization
 
-        theta_max: **numpy array**
-            | The true upper limits of the priors used to generate the
-                samples that we want the MAF to learn. If theta_max is not
-                supplied as a kwarg, then this is is an approximate estimate.
-
-        theta_min: **numpy array**
-            | As above but for the true lower limits of the priors. If
-                theta_max is not supplied as a kwarg, then this is is an
-                approximate estimate.
+        std: **numpy array**
+            | Standard deviation of the training data, used for standardization
 
         loss_history: **list**
             | This list contains the value of the loss function at each epoch
