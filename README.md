@@ -4,7 +4,7 @@ Unbounded fork of [margarine](https://github.com/htjb/margarine) by Harry T. J. 
 
 ## What is margarine_unbounded?
 
-This is a fork of the original `margarine` package that removes implicit bounds on parameters during normalizing flow training. The key modification is using **mean/std standardization** instead of **min/max normalization**, making the flows "unbounded" and better suited for certain applications like posterior repartitioning in nested sampling.
+This is a fork of the original `margarine` package that removes implicit bounds on parameters during normalizing flow training. The key modification is using **mean/std standardization** instead of **min/max normalization**, making the flows "unbounded" and better suited for certain applications like posterior repartitioning in nested sampling. These modifications were made for [](add simple-pe-PR paper link), in order to perform the flow widening procedure described in this work more cleanly.
 
 ## Key Differences from Original margarine
 
@@ -12,18 +12,17 @@ This is a fork of the original `margarine` package that removes implicit bounds 
 |---------|-------------------|---------------------|
 | **Normalization** | Min/max bounds | Mean/std standardization |
 | **Parameter bounds** | Implicit bounds at training data limits | Unbounded (no hard limits) |
-| **`.quantile()` method** | Not available | ✅ Available for nested sampling |
+| **`.quantile()` method** | Not available | Available for nested sampling |
 | **Use case** | General density estimation | Posterior repartitioning, nested sampling |
 
 ## Why Unbounded?
 
-The original margarine uses min/max normalization, which implicitly bounds parameters to the range of the training data. For applications like posterior repartitioning, where you sample from a trained flow and need to evaluate probabilities slightly outside the training region, these implicit bounds can cause issues.
+The original margarine uses min/max normalization, which implicitly bounds parameters to the range of the training data. For applications like posterior repartitioning, where you sample from a trained flow and sometimes may want to evaluate probabilities on or near the end of your training data min/max values, these implicit bounds can cause issues.
 
 margarine_unbounded uses standardization (`(x - mean) / std`), which:
 - Has no hard boundaries
-- Handles edge cases more gracefully
-- Provides cleaner transformations for nested sampling applications
-- Works better when parameters may approach prior boundaries
+- Provides cleaner transformations for some posterior repartitioning applications (see [](add link to simple-pe-PR paper)
+- Works better when parameters may approach prior boundaries (less saturation)
 
 ## Installation
 
