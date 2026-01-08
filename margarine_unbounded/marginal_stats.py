@@ -7,9 +7,9 @@ from scipy.special import logsumexp
 from tensorflow_probability import distributions as tfd
 from tqdm import tqdm
 
-from margarine.clustered import clusterMAF
-from margarine.kde import KDE
-from margarine.maf import MAF
+from margarine_unbounded.clustered import clusterMAF
+from margarine_unbounded.kde import KDE
+from margarine_unbounded.maf import MAF
 
 
 class calculate:
@@ -38,9 +38,9 @@ class calculate:
                 distribution. If not provided, a uniform prior will be used.
 
         Example:
-            >>> from margarine.maf import MAF
-            >>> from margarine.kde import KDE
-            >>> from margarine.clustered import clusterMAF
+            >>> from margarine_unbounded.maf import MAF
+            >>> from margarine_unbounded.kde import KDE
+            >>> from margarine_unbounded.clustered import clusterMAF
             >>> import numpy as np
             >>>
             >>> # Load a trained model

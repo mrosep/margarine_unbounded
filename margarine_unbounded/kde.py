@@ -12,7 +12,7 @@ from scipy.stats import gaussian_kde, norm
 from tensorflow_probability import bijectors as tfb
 
 import margarine
-from margarine.processing import _forward_transform, _inverse_transform
+from margarine_unbounded.processing import _forward_transform, _inverse_transform
 
 
 class KDE:
@@ -66,7 +66,7 @@ class KDE:
                 approximate estimate.
 
         Example:
-            >>> from margarine.kde import KDE
+            >>> from margarine_unbounded.kde import KDE
             >>> import numpy as np
             >>> theta = np.loadtxt('path/to/samples.txt')
             >>> weights = np.loadtxt('path/to/weights.txt')
@@ -308,7 +308,7 @@ class KDE:
         r"""Load a saved KDE from a file.
 
         Example:
-            >>> from margarine.kde import KDE
+            >>> from margarine_unbounded.kde import KDE
             >>> file = 'path/to/pickled/bijector.pkl'
             >>> kde_model = KDE.load(file)
 

@@ -3,12 +3,13 @@ requires = ["setuptools>=77.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "margarine"
-version = "1.4.2"
-description = "margarine: Posterior Sampling and Marginal Bayesian Statistics "
+name = "margarine_unbounded"
+version = "0.1.0"
+description = "margarine_unbounded: Unbounded fork of margarine for flow-based inference without implicit parameter bounds"
 readme = "README.rst"
 authors = [
-    {name = "Harry T. J. Bevins", email = "htjb2@cam.ac.uk"}]
+    {name = "Metha Prathaban", email = "your.email@example.com"},
+    {name = "Harry T. J. Bevins (original margarine)", email = "htjb2@cam.ac.uk"}]
 license = {text = "MIT"}
 requires-python = ">=3.10"
 dependencies = [
@@ -44,7 +45,7 @@ dev = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["margarine*"]
+include = ["margarine_unbounded*"]
 
 [tool.ruff]
 line-length = 79

@@ -12,7 +12,7 @@ from scipy.special import logsumexp
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 
-from margarine.maf import MAF
+from margarine_unbounded.maf import MAF
 
 tfd = tfp.distributions
 
@@ -284,7 +284,7 @@ class clusterMAF:
         initialised. It calls the `train()` function for each flow.
 
         Example:
-            >>> from margarine.clustered import clusterMAF
+            >>> from margarine_unbounded.clustered import clusterMAF
             >>> bij = clusterMAF(theta, weights=weights)
             >>> bij.train()
 
@@ -481,7 +481,7 @@ class clusterMAF:
         r"""Load a saved clusterMAF from a file.
 
         Example:
-            >>> from margarine.clustered import clusterMAF
+            >>> from margarine_unbounded.clustered import clusterMAF
             >>> file = 'path/to/pickled/MAF.pkl'
             >>> bij = clusterMAF.load(file)
 
